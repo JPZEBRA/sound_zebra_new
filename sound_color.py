@@ -30,6 +30,38 @@ def square_out(sound_a,duration,note,pow,sampling):
 
     return s
 
+def pulse_out(sound_a,duration,note,pow,sampling):
+
+    length_of_s = int(duration)
+    s = np.zeros(length_of_s)
+
+    f0 = sound_a * np.power(2, note / 12)
+    T = 1 / f0
+
+
+    for n in range(length_of_s):
+        sw = np.sin(2 * np.pi * f0/sampling*n)
+        if sw >  0.99 : s[n] =   pow
+        if sw < -0.99 : s[n] = - pow
+
+    return s
+
+def sawtooth_out(sound_a,duration,note,pow,sampling):
+
+    length_of_s = int(duration)
+    s = np.zeros(length_of_s)
+
+    f0 = sound_a * np.power(2, note / 12)
+    T = 1 / f0
+
+
+    for n in range(length_of_s):
+        saw = (f0/sampling*n)
+        saw -= int(saw)
+        s[n] = saw - 0.5
+
+    return s
+
 def sin_decay(sound_a,duration,note,pow,sampling,decay):
 
     length_of_s = int(duration)
