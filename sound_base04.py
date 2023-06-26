@@ -1,4 +1,3 @@
-import math
 import numpy as np
 from wave_file import wave_write_16bit_mono
 from sound_color import square_out
@@ -14,7 +13,7 @@ octave = 0
 
 fcut = 1200
 
-quality = 1/math.sqrt(2)
+quality = 1/np.sqrt(2)
 
 duration = 100000
 

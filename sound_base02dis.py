@@ -1,6 +1,7 @@
 import numpy as np
 from wave_file import wave_write_16bit_mono
 from sound_color import sound_string
+from distortion import distortion
 
 sampling = 44100
 
@@ -28,5 +29,9 @@ for i in range(0,13):
         s_master[n] += 0.5*s0[n]
         s_master[n] += 0.5*s1[n]
 
+    gain = 1000
+    level = 0.7
 
-    wave_write_16bit_mono(sampling, s_master.copy(), 'snd' + str(i+1) + 'b.wav')
+    s_distortion = distortion(sampling,gain,level,s_master)
+
+    wave_write_16bit_mono(sampling, s_distortion.copy(), 'snd' + str(i+1) + 'dis.wav')
