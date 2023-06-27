@@ -7,7 +7,7 @@ sampling = 44100
 
 sound_a = 440
 
-octave = -1
+octave = 0
 
 duration = 100000
 

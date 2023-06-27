@@ -83,6 +83,30 @@ def sin_out_ADSR(sound_a,duration,note,pow,sampling):
 
     return s
 
+def sawtooth_out_ADSR(sound_a,duration,note,pow,sampling):
+
+    length_of_s = int(duration)
+    s = np.zeros(length_of_s)
+
+    f0 = sound_a * np.power(2, note / 12)
+    T = 1 / f0
+
+    delta = 0
+
+    for n in range(length_of_s):
+
+        saw = delta
+
+        saw -= int(saw)
+
+        s[n] = (saw - 0.5) * 2
+
+        ft = freq_ADSR(f0,n,duration)
+
+        delta = delta + ft/sampling
+
+    return s
+
 def freq_ADSR(fbase,pos,duration) :
 
     np = pos/duration

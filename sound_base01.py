@@ -33,4 +33,4 @@ for i in range(0,13):
         s_master[n] += s2[n]
         s_master[n] += s3[n]
 
-    wave_write_16bit_mono(sampling, s_master.copy(), 'snd' + str(i+1) + '.wav')
+    wave_write_16bit_mono(sampling, s_master.copy(), 'snd' + str(i+1) + 'c.wav')

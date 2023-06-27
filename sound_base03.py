@@ -6,7 +6,7 @@ sampling = 44100
 
 sound_a = 440
 
-octave = 0
+octave = -1
 
 duration = 100000
 
@@ -29,5 +29,5 @@ for i in range(0,13):
         if n>= duration : break
         s_master[n] += s0[n]
 
-    wave_write_16bit_mono(sampling, s_master.copy(), 'snd' + str(i+1) + '.wav')
+    wave_write_16bit_mono(sampling, s_master.copy(), 'snd' + str(i+1) + 'a.wav')
 
