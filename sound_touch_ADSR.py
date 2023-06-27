@@ -60,6 +60,21 @@ def touch_ADSR(sound):
 
     return s
 
+def delay(sound,pos) :
+
+    duration = len(sound)
+
+    s = np.zeros(duration)
+
+    for n in range(duration) :
+
+        if duration - n - 1 - pos > 0 :
+            s[duration - n - 1 ] = sound[duration - n - 1 - pos]
+        else :
+            s[duration - n - 1 ] = 0
+
+    return s
+
 def pow_ADSR(pos,duration) :
 
     np = pos/duration
