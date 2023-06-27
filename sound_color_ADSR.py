@@ -91,7 +91,7 @@ def freq_ADSR(fbase,pos,duration) :
 
     if np < ADSR_A + ADSR_D : return fbase * ADSR_DEPT - ( fbase * ADSR_DEPT - fbase * ADSR_S ) * ( np - ADSR_A ) / ADSR_D
 
-    if np < 1.0 - ADSR_R : return fbase
+    if np < 1.0 - ADSR_R : return fbase * ADSR_S
 
     return fbase * (1.0 - np ) / ADSR_R
 
