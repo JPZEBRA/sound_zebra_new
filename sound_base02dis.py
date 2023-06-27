@@ -1,7 +1,7 @@
 import numpy as np
 from wave_file import wave_write_16bit_mono
 from sound_color import sound_string
-from distortion import distortion
+from sound_distortion import distortion
 
 sampling = 44100
 
@@ -30,7 +30,7 @@ for i in range(0,13):
         s_master[n] += 0.5*s1[n]
 
     gain = 1000
-    level = 0.7
+    level = 0.5
 
     s_distortion = distortion(sampling,gain,level,s_master)
 
