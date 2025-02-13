@@ -22,8 +22,6 @@ fcut = 1000
 
 quality = 1/np.sqrt(2)
 
-duration = 100000
-
 #
 # SOUND SETTINFG
 #

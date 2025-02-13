@@ -12,11 +12,27 @@
 
 # SQUARE-01
 #from sound_settings.setting_square01 import set_sound
-#name = "./output/squ01/squ"
+#name = "./output/sqr01/sqr"
+
+# PULSE-01
+#from sound_settings.setting_pulse01 import set_sound
+#name = "./output/pls01/pls"
+
+# SAWTOOTH-01
+#from sound_settings.setting_square01 import set_sound
+#name = "./output/saw01/saw"
 
 # E-PIANO-01
-from sound_settings.setting_FM01 import set_sound
-name = "./output/fp02/pp"
+#from sound_settings.setting_epiano import set_sound
+#name = "./output/ep01/ep"
+
+# E-PIANO-02
+#from sound_settings.setting_FM01 import set_sound
+#name = "./output/ep02/fp"
+
+# STRING-01
+#from sound_settings.setting_string01 import set_sound
+#name = "./output/str01/str"
 
 # BASE-01
 #from sound_settings.setting_base01 import set_sound
@@ -42,6 +58,14 @@ name = "./output/fp02/pp"
 #from sound_settings.setting_UFO01 import set_sound
 #name = "./output/ufo01/ufo"
 
+# GLOCKEN-01
+from sound_settings.setting_glocken01 import set_sound
+name = "./output/glo01/glo"
+
+# MARIMBA-01
+#from sound_settings.setting_marimba01 import set_sound
+#name = "./output/mar01/mar"
+
 
 #
 # TEST MODE
@@ -51,7 +75,7 @@ test = False
 
 octave = 5
 
-key = 1
+key = 5
 
 #
 # BASE SETTINS
@@ -61,7 +85,7 @@ sampling = 44100
 
 sound_a = 440
 
-duration = 60000
+duration = 120000
 
 #
 # EXTERNAL LIBRALIES
@@ -78,9 +102,7 @@ import numpy as np
 
 for tone in range(41,89) :
 
-    note = tone - 69
-
-    if(test) : note = ( octave + 1 ) * 12 - 3 + ( key - 8)
+    if(test) : tone = ( octave + 1 ) * 12 - 3 + ( key - 8)
 
     note = tone - 69
 

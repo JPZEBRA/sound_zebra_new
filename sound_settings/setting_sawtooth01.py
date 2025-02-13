@@ -1,5 +1,5 @@
 import numpy as np
-from sound_base.color.sound_color import square_decay
+from sound_base.color.sound_color import sawtooth_decay
 from aoki.biquad_filter import LPF
 from aoki.biquad_filter import filter
 
@@ -17,7 +17,7 @@ def set_sound(note,sound_a,sampling,duration) :
 
     pow = 1.0
 
-    sound_master = square_decay(sound_a,duration,note,pow,sampling,decay)
+    sound_master = swatooth_decay(sound_a,duration,note,pow,sampling,decay)
   
     return sound_master
 
