@@ -74,20 +74,23 @@ def Modulate(s1,s2,power,feedback):
 
     sb = 0
 
+    p = 0
+
     for n in range(length_of_s):
 
-        diff =  power * (s2[n] + sb * feedback)
-        p = math.floor(n + diff)
-        r = n + diff - p
+        diff = power * (s2[n] + sb * feedback)
+        if n > 0 : diff += 1.0
+        p += diff
+
+        i = math.floor(p)
+        r = p - i
  
-        if p < 0 :
-            so[n] = s1[n]
-        elif p < length_of_s - 1 :
-            p = math.floor(n + diff)
-            r = n + diff - p
-            so[n] = s1[p]*(1-r) + s1[p+1]*r
-        elif p < length_of_s :
-            so[n] = s1[p]
+        if i < 0 :
+            so[n] = s1[i]
+        elif i < length_of_s - 1 :
+            so[n] = s1[i]*(1-r) + s1[i+1]*r
+        elif i < length_of_s :
+            so[n] = s1[i]
         else :
             so[n] = s1[n]
 
@@ -102,30 +105,31 @@ def ModulateR(s1,s2,power,feedback,freq,sampling):
     so = np.zeros(length_of_s)
 
     pr = sampling / freq
-   
 
     sb = 0
+
+    p = 0
 
     for n in range(length_of_s):
 
         mp = int(n - math.floor(n/pr) * pr)
 
-        diff =  power * (s2[mp] + sb * feedback)
-        p = math.floor(n + diff)
-        r = n + diff - p
+        diff = power * (s2[mp] + sb * feedback)
+        if n > 0 : diff += 1.0
+        p += diff
+
+        i = math.floor(p)
+        r = p - i
  
-        if p < 0 :
-            so[n] = s1[n]
-        elif p < length_of_s - 1 :
-            p = math.floor(n + diff)
-            r = n + diff - p
-            so[n] = s1[p]*(1-r) + s1[p+1]*r
-        elif p < length_of_s :
-            so[n] = s1[p]
+        if i < 0 :
+            so[n] = s1[i]
+        elif i < length_of_s - 1 :
+            so[n] = s1[i]*(1-r) + s1[i+1]*r
+        elif i < length_of_s :
+            so[n] = s1[i]
         else :
             so[n] = s1[n]
 
         sb = so[n]
  
     return so
-
