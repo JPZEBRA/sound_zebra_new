@@ -51,12 +51,16 @@ duration = 120000
 #name = "./output/sqr01/sqr"
 
 # PULSE-01
-from sound_settings.setting_pulse01 import set_sound
-name = "./output/pls01/pls"
+#from sound_settings.setting_pulse01 import set_sound
+#name = "./output/pls01/pls"
 
 # SAWTOOTH-01
-#from sound_settings.setting_square01 import set_sound
+#from sound_settings.setting_sawtooth01 import set_sound
 #name = "./output/saw01/saw"
+
+# SAWTOOTH-02
+#from sound_settings.setting_sawtooth01 import set_sound
+#name = "./output/saw02/saw"
 
 # E-PIANO-01
 #from sound_settings.setting_epiano import set_sound
@@ -111,8 +115,8 @@ name = "./output/pls01/pls"
 #name = "./output/flu01/flu"
 
 # TRUMPET-01
-from sound_settings.setting_trumpet01 import set_sound
-name = "./output/tru01/tru"
+#from sound_settings.setting_trumpet01 import set_sound
+#name = "./output/tru01/tru"
 
 # HARPSICHORD-01
 #from sound_settings.setting_harp01 import set_sound
@@ -120,8 +124,8 @@ name = "./output/tru01/tru"
 #base_key = 0
 
 # TEST
-#from sound_settings.setting_FM00 import set_sound
-#name = "./output/tst00/tst"
+from sound_settings.setting_TEST301 import set_sound
+name = "./output/tst000/tst"
 
 
 #
