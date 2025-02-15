@@ -51,7 +51,7 @@ def set_FME(sound,duration):
     for n in range(duration) :
 
         s[n] = level/100
- 
+
         if mode >= 3 :
             if n >= count : mode = 4
         else :
@@ -96,7 +96,9 @@ def set_FME(sound,duration):
                 count = duration - int(np.abs(FME_L4 - FME_L3)/np.tan(np.pi*FME_A4/180))*duration/100
             continue
         if mode == 4 :
-                level = level - np.sign(FME_L4 - FME_L3)*np.sin(np.pi*FME_A4/180)*100/duration
+                level = level + np.sign(FME_L4 - FME_L3)*np.sin(np.pi*FME_A4/180)*100/duration
+
+ 
 
     for n in range(duration) :
 
