@@ -1,13 +1,13 @@
 import numpy as np
 
-TADSR_Z = 0.00
-TADSR_A = 0.01
-TADSR_D = 0.10
-TADSR_S = 1.00
-TADSR_R = 0.30
+TADSR_Z    = 0.00
+TADSR_A    = 0.01
+TADSR_D    = 0.10
+TADSR_S    = 1.00
+TADSR_R    = 0.30
 TADSR_DEPT = 1.05
 
-def set_touch_ADSR(delay,attack,duration,sustain,reduce,depth) :
+def set_touch_ADSR(delay,attack,decay,sustain,release,depth) :
 
     global TADSR_Z
     global TADSR_A
@@ -18,9 +18,9 @@ def set_touch_ADSR(delay,attack,duration,sustain,reduce,depth) :
 
     TADSR_Z = delay
     TADSR_A = attack
-    TADSR_D = duration
+    TADSR_D = decay
     TADSR_S = sustain
-    TADSR_R = reduce
+    TADSR_R = release
     TADSR_DEPT = depth
 
 def set_touch_HARD() :
