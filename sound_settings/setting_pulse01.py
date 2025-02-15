@@ -6,6 +6,9 @@ from sound_base.color.sound_color import pulse_decay
 #
 
 decay = 10
+ratio = 0.3
+
+pow = 1.0
 
 #
 # SOUND MAKING
@@ -13,9 +16,7 @@ decay = 10
 
 def set_sound(note,sound_a,sampling,duration) :
 
-    pow = 1.0
-
-    sound_master = pulse_decay(sound_a,duration,note,pow,sampling,decay)
+    sound_master = pulse_decay(sound_a,duration,note,ratio,decay,pow,sampling)
   
     return sound_master
 

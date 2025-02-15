@@ -1,130 +1,131 @@
 import numpy as np
+import math
 
 from sound_base.FM.sound_FM_envelope import set_FME
 
-# UNIT-TONE
-def FM_unitT(sound_a,duration,note,ratio,feedback,sampling):
+# GET-FREQ
+def Freq(sound_a,note) :
+
+    freq = sound_a * np.power(2, note / 12)
+
+    return freq
+
+# SIN-NOTE
+def SINNote(sound_a,duration,note,ratio,feedback,sampling):
 
     length_of_s = int(duration)
     s = np.zeros(length_of_s)
 
-    f0 = sound_a * np.power(2, note / 12)
+    f0 = Freq(sound_a, note)
     fm = f0*ratio
 
     sb = 0
 
     for n in range(length_of_s):
-        s[n] = fm / sampling * n + sb * feedback
-        sb = np.sin(2 * np.pi * s[n])
+        pos = fm / sampling * n + sb * feedback
+        s[n] = np.sin(2 * np.pi * pos)
+        sb = s[n]
 
     return s
 
-# UNIT-FREQ
-def FM_unitF(sound_a,duration,f,ratio,feedback,sampling):
+# SIN-FREQ
+def SINFreq(sound_a,duration,freq,ratio,feedback,sampling):
 
     length_of_s = int(duration)
     s = np.zeros(length_of_s)
 
-    f0 = f
+    f0 = freq
     fm = f0*ratio
 
     sb = 0
 
     for n in range(length_of_s):
-        s[n] = fm / sampling * n + sb * feedback
-        sb = np.sin(2 * np.pi * s[n])
+        pos = fm / sampling * n + sb * feedback
+        s[n] = np.sin(2 * np.pi * pos)
+        sb = s[n]
 
     return s
 
+# FM-SOUND
 
-# UNIT-SOUND
-def FM_sound(sp):
+# FM-EMV
+def SETEnv(sound,duration):
 
-    length_of_s = len(sp)
-    s = np.zeros(length_of_s)
-
-    for n in range(length_of_s):
-        s[n] = np.sin(2 * np.pi * sp[n])
-
-    so = set_FME(s)
+    so = set_FME(sound,duration)
 
     return so
 
 # MIX
-def FM_MIX(s1,s2,ratio):
+def Mix(s1,s2,ratio):
 
     length_of_s = len(s1)
-    s = np.zeros(length_of_s)
+    so = np.zeros(length_of_s)
 
     for n in range(length_of_s):
-         s[n] = np.sin(2 * np.pi * s1[n])*ratio + np.sin(2 * np.pi * s2[n])*(1.0 - ratio)
-    return s
+         so[n] = s1[n]*ratio + s2[n]*(1.0 - ratio)
 
-# MIX
-def FM_ADD(s1,s2,ratio):
+    return so
+
+# MODULATE
+def Modulate(s1,s2,power,feedback):
 
     length_of_s = len(s1)
-    s = np.zeros(length_of_s)
+    so = np.zeros(length_of_s)
+
+    sb = 0
 
     for n in range(length_of_s):
-         s[n] = s1[n]*ratio + s2[n]*(1.0 - ratio)
-    return s
 
-# MODULATE
-def FM_MODULATE(s1,md,power,feedback):
-
-    width = len(s1)
-
-    length_of_s = len(md)
-    s = np.zeros(length_of_s)
-
-    fb = 0
-
-    idx = 0
-
-    for n in range(length_of_s):
-         s[n] = fb*feedback
-         i1 = int(idx)
-         i2 = i1 + 1
-         f2 = idx - i1
-         if 0<= i1 and i1<width :
-             s[n] = s[n] + s1[i1]*(1.0-f2)
-         if 0<= i2 and i2<width :
-             s[n] = s[n] + s1[i2]*f2
-
-         sb = np.sin(2 * np.pi * s[n] )
-
-         st = md[n]
-         idx = idx + (1 + st)*power
+        diff =  power * (s2[n] + sb * feedback)
+        p = math.floor(n + diff)
+        r = n + diff - p
  
-    return s
+        if p < 0 :
+            so[n] = s1[n]
+        elif p < length_of_s - 1 :
+            p = math.floor(n + diff)
+            r = n + diff - p
+            so[n] = s1[p]*(1-r) + s1[p+1]*r
+        elif p < length_of_s :
+            so[n] = s1[p]
+        else :
+            so[n] = s1[n]
 
-# MODULATE
-def FM_MODULATE_S(s1,s2,power,feedback):
+        sb = so[n]
+ 
+    return so
 
-    width = len(s1)
+# MODULATE-R
+def ModulateR(s1,s2,power,feedback,freq,sampling):
 
-    length_of_s = len(s2)
-    s = np.zeros(length_of_s)
+    length_of_s = len(s1)
+    so = np.zeros(length_of_s)
 
-    fb = 0
+    pr = sampling / freq
+   
 
-    idx = 0
+    sb = 0
 
     for n in range(length_of_s):
-         s[n] = fb*feedback
-         i1 = int(idx)
-         i2 = i1 + 1
-         f2 = idx - i1
-         if 0<= i1 and i1<width :
-             s[n] = s[n] + s1[i1]*(1.0-f2)
-         if 0<= i2 and i2<width :
-             s[n] = s[n] + s1[i2]*f2
 
-         sb = np.sin(2 * np.pi * s[n] )
+        mp = int(n - math.floor(n/pr) * pr)
 
-         st = np.sin(2 * np.pi * s2[n])
-         idx = idx + (1 + st)*power
+        diff =  power * (s2[mp] + sb * feedback)
+        p = math.floor(n + diff)
+        r = n + diff - p
  
-    return s
+        if p < 0 :
+            so[n] = s1[n]
+        elif p < length_of_s - 1 :
+            p = math.floor(n + diff)
+            r = n + diff - p
+            so[n] = s1[p]*(1-r) + s1[p+1]*r
+        elif p < length_of_s :
+            so[n] = s1[p]
+        else :
+            so[n] = s1[n]
+
+        sb = so[n]
+ 
+    return so
 

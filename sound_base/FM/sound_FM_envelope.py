@@ -38,9 +38,7 @@ def set_FME_poly(A1,A2,A3,A4) :
     FME_A3 = A3
     FME_A4 = A4
 
-def set_FME(sound):
-
-    duration = len(sound)
+def set_FME(sound,duration):
 
     s = np.zeros(duration)
 

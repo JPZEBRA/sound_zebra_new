@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 from aoki.biquad_filter import LPF
 from aoki.biquad_filter import BPF
@@ -18,6 +19,21 @@ def sin_out(sound_a,duration,note,pow,sampling):
 
     return s
 
+def sin_freq_out(sound_a,duration,freq,pow,sampling):
+
+    length_of_s = int(duration)
+    s = np.zeros(length_of_s)
+
+    f0 = freq
+    T = 1 / f0
+
+    for n in range(length_of_s):
+
+        s[n] = pow * np.sin(2 * np.pi * f0/sampling*n)
+
+    return s
+
+
 def square_out(sound_a,duration,note,pow,sampling):
 
     length_of_s = int(duration)
@@ -34,7 +50,7 @@ def square_out(sound_a,duration,note,pow,sampling):
 
     return s
 
-def pulse_out(sound_a,duration,note,pow,sampling):
+def pulse_out(sound_a,duration,note,ratio,pow,sampling):
 
     length_of_s = int(duration)
     s = np.zeros(length_of_s)
@@ -42,12 +58,10 @@ def pulse_out(sound_a,duration,note,pow,sampling):
     f0 = sound_a * np.power(2, note / 12)
     T = 1 / f0
 
-
     for n in range(length_of_s):
-        sw = np.cos(2 * np.pi * f0/sampling*n)
-        if sw >  0.99 : s[n] =   pow
-        elif sw < -0.99 : s[n] = - pow
-        else : s[n] = 0
+        pos = f0/sampling*n
+        pos -= math.floor(pos)
+        if pos < ratio : s[n] = pow
 
     return s
 
@@ -83,12 +97,12 @@ def sin_decay(sound_a,duration,note,pow,sampling,decay):
 
     return s
 
-def sin_freq_decay(sound_a,duration,note,freq,pow,sampling,decay):
+def sin_freq_decay(sound_a,duration,freq,pow,sampling,decay):
 
     length_of_s = int(duration)
     s = np.zeros(length_of_s)
 
-    f0 = sound_a * np.power(2, note / 12) * freq
+    f0 = freq
     T = 1 / f0
 
     for n in range(length_of_s):
@@ -119,7 +133,7 @@ def square_decay(sound_a,duration,note,pow,sampling,decay):
 
     return s
 
-def pulse_decay(sound_a,duration,note,pow,sampling,decay):
+def pulse_decay(sound_a,duration,note,ratio,decay,pow,sampling):
 
     length_of_s = int(duration)
     s = np.zeros(length_of_s)
@@ -129,10 +143,9 @@ def pulse_decay(sound_a,duration,note,pow,sampling,decay):
 
     for n in range(length_of_s):
 
-        sw = np.cos(2 * np.pi * f0/sampling*n)
-        if sw >  0.99 : s[n] =   pow
-        elif sw < -0.99 : s[n] = - pow
-        else : s[n] = 0
+        pos = f0/sampling*n
+        pos -= math.floor(pos)
+        if pos < ratio : s[n] = pow
 
         dec = np.power(np.e , - n * decay / duration )
         s[n] *= dec
@@ -145,6 +158,7 @@ def sawtooth_decay(sound_a,duration,note,pow,sampling,decay):
     s = np.zeros(length_of_s)
 
     f0 = sound_a * np.power(2, note / 12)
+
     T = 1 / f0
 
 
@@ -158,6 +172,23 @@ def sawtooth_decay(sound_a,duration,note,pow,sampling,decay):
         s[n] *= dec
 
     return s
+
+def sin_jitter(freq,jitter,duration,sampling):
+
+    length_of_s = int(duration)
+
+    s = np.zeros(length_of_s)
+
+    j = 0
+
+    for n in range(length_of_s) :
+
+        j += jitter[n]
+
+        s[n] = np.sin( 2 * np.pi * ( freq / sampling * n + j / sampling ) )
+
+    return s
+
 
 
 def white_noise(duration) :
@@ -269,4 +300,3 @@ def FM_out(sound_a,duration,note,pw,ratio,pw_m,sampling):
         s[n] = pw * ( cr + pw_m * md )
 
     return s
-

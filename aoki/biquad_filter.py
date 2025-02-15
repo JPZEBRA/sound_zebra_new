@@ -102,12 +102,13 @@ def filter(a, b, x):
     length_of_x = len(x)
     y = np.zeros(length_of_x)
     for n in range(length_of_x):
-        for m in range(0, 3):
-            if n - m >= 0:
-                y[n] += b[m] * x[n - m]
 
         for m in range(1, 3):
             if n - m >= 0:
                 y[n] += -a[m] * y[n - m]
+
+        for m in range(0, 3):
+            if n - m >= 0:
+                y[n] +=  b[m] * x[n - m]
 
     return y

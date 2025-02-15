@@ -1,6 +1,7 @@
 import numpy as np
 from sound_base.color.sound_color import sound_string
-from sound_base.distortion.sound_distortion import distortion
+from sound_base.effect.sound_effector import limitter
+from aoki.sound_effects import distortion
 
 #
 # DISTORTION SETTING
