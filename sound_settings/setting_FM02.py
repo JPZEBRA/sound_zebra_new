@@ -27,20 +27,18 @@ from sound_base.FM.sound_FM_unit import SETEnv
 
 def set_sound(note,sound_a,sampling,duration) :
 
-    s1 = sawtooth_out(sound_a,duration,note,1.0,sampling)
-    s2 = sawtooth_out(sound_a,duration,note+1,1.0,sampling)
+    s1 = SINNote(sound_a,duration,note,1.0,0.0,sampling)
+    s2 = SINNote(sound_a,duration,note+1,0.7,0.0,sampling)
     s3 = sawtooth_out(sound_a,duration,note+2,1.0,sampling)
 
-    s4 = ModulateR(s1,s2,0.5,0.0,Freq(sound_a,note),sampling)
+    s4 = Modulate(s1,s2,0.5,0.0)
 
     s5 = ModulateR(s4,s3,0.5,0.0,Freq(sound_a,note),sampling)
-
-    s6 = reverse(s5)
 
     set_FME_level(100,50,20,0)
     set_FME_poly(0,70,50,5)
 
-    sa = SETEnv(s6,duration)
+    sa = SETEnv(s5,duration)
 
     return sa
 
