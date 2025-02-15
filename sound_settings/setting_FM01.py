@@ -44,7 +44,7 @@ def set_sound(note,sound_a,sampling,duration) :
     sa = Mix(md4,md5,mix)
 
     set_FME_level(100,50,20,0)
-    set_FME_poly(0,70,50,5)
+    set_FME_poly(0,70,50,20)
     sa = SETEnv(sa,duration)
 
     ratio3 = 1.000
@@ -62,7 +62,7 @@ def set_sound(note,sound_a,sampling,duration) :
     sb  = Modulate(op1,md2,modpower2,feedback2)
 
     set_FME_level(100,60,5,0)
-    set_FME_poly(0,80,60,5)
+    set_FME_poly(0,80,60,20)
     sb = SETEnv(sb,duration)
 
 

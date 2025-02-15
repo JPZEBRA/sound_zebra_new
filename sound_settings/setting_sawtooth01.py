@@ -17,7 +17,7 @@ def set_sound(note,sound_a,sampling,duration) :
 
     pow = 1.0
 
-    sound_master = swatooth_decay(sound_a,duration,note,pow,sampling,decay)
+    sound_master = sawtooth_decay(sound_a,duration,note,pow,sampling,decay)
   
     return sound_master
 
