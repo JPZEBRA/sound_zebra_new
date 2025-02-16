@@ -98,38 +98,21 @@ def Modulate(s1,s2,power,feedback):
  
     return so
 
-# MODULATE-R
-def ModulateR(s1,s2,power,feedback,freq,sampling):
+# SYNC
+def Sync(s1,s2):
 
     length_of_s = len(s1)
     so = np.zeros(length_of_s)
 
-    pr = sampling / freq
-
-    sb = 0
-
-    p = 0
+    sp = 0
 
     for n in range(length_of_s):
 
-        mp = int(n - math.floor(n/pr) * pr)
+        if n > 0 and n < length_of_s - 1 and s2[n] < s2[n-1] and s2[n] <= s2[n+1] : sp = 0
 
-        diff = power * (s2[mp] + sb * feedback)
-        if n > 0 : diff += 1.0
-        p += diff
+        so[n] = s1[sp]
 
-        i = math.floor(p)
-        r = p - i
- 
-        if i < 0 :
-            so[n] = s1[i]
-        elif i < length_of_s - 1 :
-            so[n] = s1[i]*(1-r) + s1[i+1]*r
-        elif i < length_of_s :
-            so[n] = s1[i]
-        else :
-            so[n] = s1[n]
-
-        sb = so[n]
+        sp += 1
  
     return so
+
