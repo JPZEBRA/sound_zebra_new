@@ -25,7 +25,6 @@ from sound_base.FM.sound_FM_unit import SINFreq
 from sound_base.FM.sound_FM_unit import Freq
 from sound_base.FM.sound_FM_unit import Mix
 from sound_base.FM.sound_FM_unit import Modulate
-from sound_base.FM.sound_FM_unit import ModulateR
 from sound_base.FM.sound_FM_unit import SETEnv
 
 #
@@ -52,7 +51,7 @@ def set_sound(note,sound_a,sampling,duration) :
     s1   = pw[0]*s11 + pw[1]*s12 + pw[2]*s13 + pw[3]*s14 + pw[4]*s15 + pw[5]*s16 + pw[6]*s17
 
     set_FME_level(100,50, 5, 0)
-    set_FME_poly (  0,85,80,30)
+    set_FME_poly (  0,85,70,30)
 
     so = SETEnv(s1,duration)
 

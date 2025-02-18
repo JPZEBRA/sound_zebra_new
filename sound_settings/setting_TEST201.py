@@ -28,7 +28,6 @@ from sound_base.FM.sound_FM_unit import SINFreq
 from sound_base.FM.sound_FM_unit import Freq
 from sound_base.FM.sound_FM_unit import Mix
 from sound_base.FM.sound_FM_unit import Modulate
-from sound_base.FM.sound_FM_unit import ModulateR
 from sound_base.FM.sound_FM_unit import SETEnv
 
 #

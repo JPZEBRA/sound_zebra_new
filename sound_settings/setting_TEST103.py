@@ -25,6 +25,7 @@ from sound_base.FM.sound_FM_unit import SINFreq
 from sound_base.FM.sound_FM_unit import Freq
 from sound_base.FM.sound_FM_unit import Mix
 from sound_base.FM.sound_FM_unit import Modulate
+from sound_base.FM.sound_FM_unit import Sync
 from sound_base.FM.sound_FM_unit import SETEnv
 
 #
@@ -33,29 +34,58 @@ from sound_base.FM.sound_FM_unit import SETEnv
 
 def set_sound(note,sound_a,sampling,duration) :
 
-    fx = np.array([1.00, 3.00, 5.00, 7.00, 9.00,11.00,13.00])
-    pw = np.array([   5,    7,    9,    4,    3,    2,    1])
-    fb = np.array([0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00])
+    fx = np.array([20.00,19.52, 1.00, 1.00, 5.00])
+    fb = np.array([ 0.00, 0.00, 0.00, 0.00, 0.50])
 
-    pt = np.sum(pw)
-    pw = pw/pt
-   
     s11  = SINNote(sound_a,duration,note,fx[0],fb[0],sampling)
     s12  = SINNote(sound_a,duration,note,fx[1],fb[1],sampling)
     s13  = SINNote(sound_a,duration,note,fx[2],fb[2],sampling)
     s14  = SINNote(sound_a,duration,note,fx[3],fb[3],sampling)
     s15  = SINNote(sound_a,duration,note,fx[4],fb[4],sampling)
-    s16  = SINNote(sound_a,duration,note,fx[5],fb[5],sampling)
-    s17  = SINNote(sound_a,duration,note,fx[6],fb[6],sampling)
- 
-    s1   = pw[0]*s11 + pw[1]*s12 + pw[2]*s13 + pw[3]*s14 + pw[4]*s15 + pw[5]*s16 + pw[6]*s17
+    s16  = SINFreq(sound_a,duration, 100,1.00 ,0.00 ,sampling)
 
-    set_FME_level(100,80,50, 0)
-    set_FME_poly (  0,85,60,30)
+    set_FME_level(100,50,10,10)
+    set_FME_poly (  0,70,50, 0)
 
-    so = SETEnv(s1,duration)
+    e12 = SETEnv(s12,duration)
 
-    return limitter(so)
+    m11 = Modulate(s11,e12,0.7,0.0)
+
+    set_FME_level(100,50, 0, 0)
+    set_FME_poly (  0,85,50, 0)
+
+    e11 = SETEnv(m11,duration)
+
+    set_FME_level(100,30, 0, 0)
+    set_FME_poly (  0,85,30, 0)
+
+    e15 = SETEnv(s15,duration)
+
+    m14 = Modulate(s14,e15,0.7,0.0)
+
+    set_FME_level(100,60,30,30)
+    set_FME_poly (  0,80,20, 0)
+
+    e14 = SETEnv(m14,duration)
+
+    m13 = Modulate(s13,e14,0.2,0.0)
+
+    set_FME_level(100,50, 0, 0)
+    set_FME_poly (  0,60,10, 0)
+
+    e13 = SETEnv(m13,duration)
+
+    set_FME_level(100,30, 0, 0)
+    set_FME_poly (  0,85,80, 0)
+
+    e16 = SETEnv(s16,duration)
+
+    so1 = Mix(e11,e13,0.3)
+
+    so2 = Mix(so1,e16,0.5)
+
+
+    return limitter(so2)
 
 #
 # MAKING ENDS

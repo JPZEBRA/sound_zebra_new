@@ -1,4 +1,4 @@
-# E-PIANO
+# FM-PIANO ( TEST301 )
 
 import numpy as np
 
@@ -33,7 +33,7 @@ from sound_base.FM.sound_FM_unit import SETEnv
 
 def set_sound(note,sound_a,sampling,duration) :
 
-    fx = np.array([1.00, 3.00, 5.00, 7.00, 9.00,11.00,13.00])
+    fx = np.array([1.00, 1.50, 2.50, 3.50, 4.50, 5.50, 6.50])
     pw = np.array([   5,    7,    9,    4,    3,    2,    1])
     fb = np.array([0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00])
 
@@ -50,8 +50,8 @@ def set_sound(note,sound_a,sampling,duration) :
  
     s1   = pw[0]*s11 + pw[1]*s12 + pw[2]*s13 + pw[3]*s14 + pw[4]*s15 + pw[5]*s16 + pw[6]*s17
 
-    set_FME_level(100,80,50, 0)
-    set_FME_poly (  0,85,60,30)
+    set_FME_level(100,50, 5, 0)
+    set_FME_poly (  0,85,70,30)
 
     so = SETEnv(s1,duration)
 

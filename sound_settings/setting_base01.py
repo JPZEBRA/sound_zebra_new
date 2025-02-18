@@ -18,8 +18,6 @@ def set_sound(note,sound_a,sampling,duration) :
 
     s1 = sound_string(sound_a,duration,note-13*2,sampling)
 
-    s2 = sound_string(sound_a,duration,note-13*3,sampling)
-
     length_of_s_master = int(duration)
 
     sound_master = np.zeros(length_of_s_master)
