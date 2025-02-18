@@ -63,7 +63,7 @@ duration = 120000
 #name = "./output/saw02/saw"
 
 # E-PIANO-01
-#from sound_settings.setting_epiano import set_sound
+#from sound_settings.setting_epiano01 import set_sound
 #name = "./output/ep01/ep"
 
 # E-PIANO-02
@@ -71,8 +71,12 @@ duration = 120000
 #name = "./output/ep02/fp"
 
 # E-PIANO-03
-#from sound_settings.setting_FM02 import set_sound
-#name = "./output/ep03/en"
+#from sound_settings.setting_fmpiano01 import set_sound
+#name = "./output/ep03/eb"
+
+# E-PIANO-04
+#from sound_settings.setting_fmpiano02 import set_sound
+#name = "./output/ep04/ex"
 
 # STRING-01
 #from sound_settings.setting_string01 import set_sound
@@ -123,10 +127,21 @@ duration = 120000
 #name = "./output/hrp01/hrp"
 #base_key = 0
 
-# TEST
-from sound_settings.setting_TEST301 import set_sound
-name = "./output/tst000/tst"
+# D-BASE
+#from sound_settings.setting_dbase01 import set_sound
+#name = "./output/dbs01/db"
 
+# FMPAD
+#from sound_settings.setting_fmpad01 import set_sound
+#name = "./output/fmp01/fmp"
+
+# FMPAD
+#from sound_settings.setting_fmpad02 import set_sound
+#name = "./output/fmp02/fmp"
+
+# TEST
+from sound_settings.setting_TEST106 import set_sound
+name = "./output/tst000/tst"
 
 #
 # MAIN LOOP
