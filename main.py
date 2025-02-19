@@ -78,6 +78,10 @@ duration = 120000
 #from sound_settings.setting_fmpiano02 import set_sound
 #name = "./output/ep04/ex"
 
+# E-PIANO-05
+#from sound_settings.setting_fmpiano03 import set_sound
+#name = "./output/ep05/ee"
+
 # STRING-01
 #from sound_settings.setting_string01 import set_sound
 #name = "./output/str01/str"
@@ -140,7 +144,7 @@ duration = 120000
 #name = "./output/fmp02/fmp"
 
 # TEST
-from sound_settings.setting_TEST106 import set_sound
+from sound_settings.setting_TEST001 import set_sound
 name = "./output/tst000/tst"
 
 #

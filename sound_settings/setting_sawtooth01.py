@@ -17,9 +17,19 @@ def set_sound(note,sound_a,sampling,duration) :
 
     pow = 1.0
 
-    sound_master = sawtooth_decay(sound_a,duration,note,pow,sampling,decay)
-  
-    return sound_master
+    s1 = sawtooth_decay(sound_a,duration,note,pow,sampling,decay)
+
+    cutoff = Freq(sound_a,note)
+
+    amount = cutoff / 2.0
+
+    level = 0.5
+
+    env = set_Envelope(duration,amount):
+ 
+    so = EGFilter(sampling,s1,cutoff,level,resonance,env) :
+ 
+    return so
 
 #
 # MAKING ENDS
