@@ -49,9 +49,9 @@ def SINFreq(sound_a,duration,freq,ratio,feedback,sampling):
 # FM-SOUND
 
 # FM-EMV
-def SETEnv(sound,duration):
+def SETEnv(sound,speed):
 
-    so = set_FME(sound,duration)
+    so = set_FME(sound,speed)
 
     return so
 

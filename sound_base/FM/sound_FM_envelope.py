@@ -48,6 +48,15 @@ def set_FME_speed(speed,sampling) :
 
 def set_FME(sound,duration):
 
+    s = set_Envelope(duration,1.0)
+
+    so = s * sound
+
+    return so
+
+
+def set_Envelope(duration,amount):
+
     s = np.zeros(duration)
 
     count = [0,0,0,0,0]
@@ -106,6 +115,7 @@ def set_FME(sound,duration):
         if mode == 5 :
             level = FME_L4
 
-    s = s * sound
+    so = s * amount
 
-    return s
+    return so
+

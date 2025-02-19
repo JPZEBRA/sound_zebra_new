@@ -1,8 +1,10 @@
 import numpy as np
 
 from aoki.biquad_filter import LPF
+from aoki.biquad_filter import HPF
 from aoki.biquad_filter import LSF
 from aoki.biquad_filter import HSF
+from aoki.biquad_filter import BPF
 from aoki.biquad_filter import PF
 from aoki.biquad_filter import filter
 from aoki.window_function import Hanning_window
@@ -35,6 +37,125 @@ def reverse(sound) :
     for n in range(slen) : so[n] = sound[slen-1-n]
 
     return so
+
+###########
+### LPF ###
+###########
+
+def LPFilter(sampling,sound,cutoff,level,resonance) :
+
+    fs = sampling
+    fc = cutoff
+    Q  = level
+
+    a,b = LPF(fs, fc, Q)
+    s1 = filter(a,b,sound)
+
+    a,b = BPF(fs, fc, Q)
+    s2 = filter(a,b,sound)
+
+    s1 += s2 * resonance
+
+    return limitter(s1)
+
+
+###########
+### HPF ###
+###########
+
+def HPFilter(sampling,sound,cutoff,level,resonance) :
+
+    fs = sampling
+    fc = cutoff
+    Q  = level
+
+    a,b = HPF(fs, fc, Q)
+    s1 = filter(a,b,sound)
+
+    a,b = BPF(fs, fc, Q)
+    s2 = filter(a,b,sound)
+
+    s1 += s2 * resonance
+
+    return limitter(s1)
+
+###########
+### BPF ###
+###########
+
+def BPFilter(sampling,sound,cutoff,level,resonance) :
+
+    fs = sampling
+    fc = cutoff
+    Q  = level
+
+    a,b = BPF(fs, fc, Q)
+    so = filter(a,b,sound)
+
+    return limitter(so)
+
+###########
+### EG  ###
+###########
+
+def EGFilter(sampling,sound,cutoff,level,resonance,envelope) :
+
+    fs = sampling
+    fc = cutoff
+    Q  = level
+
+    s1 = LPF_EG(fs, fc, Q,envelope,sound)
+
+    s2 = BPF_EG(fs, fc, Q,envelope,sound)
+
+    so = s1 + s2 * resonance
+
+    return limitter(so)
+
+def LPF_EG(fs, fc, Q, env, sound) :
+
+    duration = len(sound)
+
+    so = np.zeros(duration)
+
+    for n in range(duration) :
+
+        a,b = LPF(fs, fc + env[n] , Q)
+
+        for m in range(1, 3):
+            if n - m >= 0:
+                so[n] += -a[m] * so[n - m]
+
+        for m in range(0, 3):
+            if n - m >= 0:
+                so[n] +=  b[m] * sound[n - m]
+
+    return so
+
+def BPF_EG(fs, fc, Q, env, sound) :
+
+    duration = len(sound)
+
+    so = np.zeros(duration)
+
+    for n in range(duration) :
+
+        a,b = BPF(fs, fc + env[n] , Q)
+
+        for m in range(1, 3):
+            if n - m >= 0:
+                so[n] += -a[m] * so[n - m]
+
+        for m in range(0, 3):
+            if n - m >= 0:
+                so[n] +=  b[m] * sound[n - m]
+
+    return so
+
+
+
+    
+
 
 #############
 ### RADIO ###
