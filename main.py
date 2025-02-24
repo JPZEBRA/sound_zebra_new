@@ -221,8 +221,8 @@ duration = 120000
 #name = "./output/gtr01/gtr"
 
 # DRUM
-from sound_settings.setting_PRESET010 import set_sound
-name = "./output/drm01/drm"
+#from sound_settings.setting_PRESET010 import set_sound
+#name = "./output/drm01/drm"
 
 # VOCAL
 #from sound_settings.setting_PRESET011 import set_sound
@@ -237,12 +237,20 @@ name = "./output/drm01/drm"
 #name = "./output/hnk01/hnk"
 
 # HIPHOP
-from sound_settings.setting_hiphop01 import set_sound
-name = "./output/hip01/hip"
+#from sound_settings.setting_hiphop01 import set_sound
+#name = "./output/hip01/hip"
+
+# TRIPHOP
+#from sound_settings.setting_triphop01 import set_sound
+#name = "./output/trp01/trp"
+
+# UK NewWave
+from sound_settings.setting_UKnew01 import set_sound
+name = "./output/ukp01/ukp"
 
 # TEST
-from sound_settings.setting_PRESET000 import set_sound
-name = "./output/tst000/tst"
+#from sound_settings.setting_UKnew01 import set_sound
+#name = "./output/tst000/tst"
 
 #
 # MAIN LOOP
