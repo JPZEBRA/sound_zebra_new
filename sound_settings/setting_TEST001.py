@@ -4,12 +4,15 @@ import numpy as np
 
 from sound_base.color.sound_color import sin_out
 from sound_base.color.sound_color import sin_freq_out
+from sound_base.color.sound_color import pulse_out
+from sound_base.color.sound_color import pulse_out_mod
 from sound_base.color.sound_color import sawtooth_out
 from sound_base.color.sound_color import sawtooth_freq_out
-from sound_base.color.sound_color import sawtooth_decay
 
 from sound_base.effect.sound_effector import limitter
-from sound_base.effect.sound_effector import reverse
+from sound_base.effect.sound_effector import fourier_trans
+from sound_base.effect.sound_effector import fourier_trans_ratio
+from sound_base.effect.sound_effector import fourier_trans_sync
 from sound_base.effect.sound_effector import LPFilter
 from sound_base.effect.sound_effector import HPFilter
 from sound_base.effect.sound_effector import BPFilter
@@ -25,6 +28,7 @@ from sound_base.FM.sound_FM_unit import SINFreq
 from sound_base.FM.sound_FM_unit import Freq
 from sound_base.FM.sound_FM_unit import Mix
 from sound_base.FM.sound_FM_unit import Modulate
+from sound_base.FM.sound_FM_unit import Sync
 from sound_base.FM.sound_FM_unit import SETEnv
 
 from sound_base.color.sound_color import sawtooth_decay
@@ -44,7 +48,7 @@ decay = 1
 def set_sound(note,sound_a,sampling,duration) :
 
     fx = np.array([1.00, 3.00, 5.00, 7.00, 9.00,11.00,13.00,0.10])
-    pw = np.array([   5,    7,    9,    4,    3,    2,    1,   0])
+    pw = np.array([   1,    2,    4,    8,   16,    8,    4,   0])
     fb = np.array([0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,0.00])
 
     pt = np.sum(pw)
@@ -61,13 +65,13 @@ def set_sound(note,sound_a,sampling,duration) :
 
     s1   = pw[0]*s11 + pw[1]*s12 + pw[2]*s13 + pw[3]*s14 + pw[4]*s15 + pw[5]*s16 + pw[6]*s17
 
-    cutoff = Freq(sound_a,note) * 1.5
+    cutoff = Freq(sound_a,note) * 10.0
 
-    amount = Freq(sound_a,note) * 0.5
+    amount = Freq(sound_a,note) *  5.0
 
     level = 0.5
 
-    resonance = 3.0
+    resonance = 0.2
 
     env1 = amount * s18
  
