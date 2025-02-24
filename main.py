@@ -3,12 +3,6 @@ import numpy as np
 # WAVE SUPPORT #
 from aoki.wave_file import wave_write_16bit_mono
 
-# SOUND EFFECTORS #
-from aoki.sound_effects import reverb
-from aoki.sound_effects import compressor
-from sound_base.effect.sound_effector import radio
-from sound_base.effect.sound_effector import acoustic
-
 #
 # MAIN OF SOUNDS MAKING
 #
@@ -22,7 +16,7 @@ test = False
 
 octave = 5
 
-key = 5
+key = 8
 
 #
 # BASE SETTINS
@@ -35,7 +29,6 @@ sound_a = 440
 base_key = 69
 
 duration = 120000
-
 
 #
 # SELECT SOUND COLOR
@@ -61,6 +54,10 @@ duration = 120000
 # SAWTOOTH-02
 #from sound_settings.setting_sawtooth01 import set_sound
 #name = "./output/saw02/saw"
+
+# SAWTOOTH-03
+#from sound_settings.setting_sync_saw01 import set_sound
+#name = "./output/saw03/saw"
 
 # E-PIANO-01
 #from sound_settings.setting_epiano01 import set_sound
@@ -131,20 +128,120 @@ duration = 120000
 #name = "./output/hrp01/hrp"
 #base_key = 0
 
-# D-BASE
+# D-BASE-1
 #from sound_settings.setting_dbase01 import set_sound
 #name = "./output/dbs01/db"
 
-# FMPAD
+# FMPAD-1
 #from sound_settings.setting_fmpad01 import set_sound
 #name = "./output/fmp01/fmp"
 
-# FMPAD
+# FMPAD-2
 #from sound_settings.setting_fmpad02 import set_sound
 #name = "./output/fmp02/fmp"
 
+# TECHNO-1
+#from sound_settings.setting_techno01 import set_sound
+#name = "./output/tec01/tec"
+
+# TECHNO-2
+#from sound_settings.setting_techno02import set_sound
+#name = "./output/tec02/tec"
+
+# DETROIT-1
+#from sound_settings.setting_detroit01 import set_sound
+#name = "./output/det01/det"
+
+# FUNC-1
+#from sound_settings.setting_func01 import set_sound
+#name = "./output/fnc01/fnc"
+
+# FUNC-2
+#from sound_settings.setting_func02 import set_sound
+#name = "./output/fnc02/fnc"
+
+# SOLID BASE-1
+#from sound_settings.setting_dbase03 import set_sound
+#name = "./output/dbs03/dbs"
+
+# DUB STEP-1
+#from sound_settings.setting_dubstep01 import set_sound
+#name = "./output/dub01/dub"
+
+# DUB STEP-2 ( ISLAND )
+#from sound_settings.setting_island01 import set_sound
+#name = "./output/ild01/ild"
+
+# FM STRING-1
+#from sound_settings.setting_FMstring01 import set_sound
+#name = "./output/fms01/fms"
+
+# FM STRING-2
+#from sound_settings.setting_FMstring02 import set_sound
+#name = "./output/fms02/fms"
+
+# FM BRASS 1
+#from sound_settings.setting_FMbrass01 import set_sound
+#name = "./output/fmb01/fmb"
+
+# FM BASE-1
+#from sound_settings.setting_FMbase01 import set_sound
+#name = "./output/fba01/fba"
+
+# FM PAD-4
+#from sound_settings.setting_FMpad04 import set_sound
+#name = "./output/fmp04/fmp"
+
+# M1 BASE-1
+#from sound_settings.setting_M1base01 import set_sound
+#name = "./output/m1b01/m1b"
+
+# GORIGORI-1
+#from sound_settings.setting_gorigori01 import set_sound
+#name = "./output/grb01/grb"
+
+# ORGEL
+#from sound_settings.setting_suzu01 import set_sound
+#name = "./output/suzu01/suzu"
+
+# BELL
+#from sound_settings.setting_suzu02 import set_sound
+#name = "./output/suzu02/suzu"
+
+# KNOCK
+#from sound_settings.setting_PRESET005 import set_sound
+#name = "./output/knk01/knk"
+
+# CHURCH BELL
+#from sound_settings.setting_PRESET007 import set_sound
+#name = "./output/chb00/chb"
+
+# GUITAR
+#from sound_settings.setting_PRESET008 import set_sound
+#name = "./output/gtr01/gtr"
+
+# DRUM
+from sound_settings.setting_PRESET010 import set_sound
+name = "./output/drm01/drm"
+
+# VOCAL
+#from sound_settings.setting_PRESET011 import set_sound
+#name = "./output/voc01/voc"
+
+# RG-HORN
+#from sound_settings.setting_PRESET012 import set_sound
+#name = "./output/rgh01/rgh"
+
+# HONK
+#from sound_settings.setting_PRESET013 import set_sound
+#name = "./output/hnk01/hnk"
+
+# HIPHOP
+from sound_settings.setting_hiphop01 import set_sound
+name = "./output/hip01/hip"
+
 # TEST
-from sound_settings.setting_TEST001 import set_sound
+from sound_settings.setting_PRESET000 import set_sound
 name = "./output/tst000/tst"
 
 #
