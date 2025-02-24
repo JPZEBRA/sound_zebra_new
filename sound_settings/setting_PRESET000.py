@@ -1,4 +1,4 @@
-# PRESET 010
+# PRESET 013
 
 import numpy as np
 
@@ -19,16 +19,17 @@ from sound_base.effect.sound_effector import EGFilter
 from sound_base.FM.sound_FM_envelope import set_FME_tone
 from sound_base.FM.sound_FM_envelope import set_FME_organ
 from sound_base.FM.sound_FM_envelope import set_FME_gentle
+from sound_base.FM.sound_FM_envelope import set_FME_solid
 from sound_base.FM.sound_FM_envelope import set_FME_hard
-from sound_base.FM.sound_FM_envelope import set_FME_hard_remain
 from sound_base.FM.sound_FM_envelope import set_FME_very_hard
-from sound_base.FM.sound_FM_envelope import set_FME_very_hard_remain
 from sound_base.FM.sound_FM_envelope import set_FME_attack
+from sound_base.FM.sound_FM_envelope import set_FME_attack_gentle
 from sound_base.FM.sound_FM_envelope import set_FME_slow
 from sound_base.FM.sound_FM_envelope import set_FME
 
 from sound_base.FM.sound_FM_envelope import set_FME_level
 from sound_base.FM.sound_FM_envelope import set_FME_poly
+from sound_base.FM.sound_FM_envelope import set_Envelope
 
 from sound_base.FM.sound_FM_unit import Freq
 from sound_base.FM.sound_FM_unit import Mix
@@ -45,6 +46,7 @@ from sound_base.FM.sound_FM_pre import FM_pre_saw
 from sound_base.FM.sound_FM_pre import FM_pre_tri
 from sound_base.FM.sound_FM_pre import FM_pre_suzu
 from sound_base.FM.sound_FM_pre import FM_pre_drum
+from sound_base.FM.sound_FM_pre import FM_pre_vocal
 
 #
 # SOUND SETTING
@@ -57,15 +59,25 @@ from sound_base.FM.sound_FM_pre import FM_pre_drum
 
 def set_sound(note,sound_a,sampling,duration) :
 
-    FM_pre_drum()
+    FM_pre_vocal()
 
-    sa  = FM_pre_sound(note-12,sound_a,sampling,duration)
+    sa  = FM_pre_sound(note,sound_a,sampling,duration)
 
-    set_FME_very_hard_remain()
+    set_FME_tone()
 
-    so = set_FME(sa,duration)
+    ea = set_Envelope(duration,1.0)
 
-    return limitter(so)
+    sb = Modulate(sa,ea,0.05,0.0)
+
+    sc = Modulate(sa,ea,-0.03,0.0)
+
+    sd = 0.3 * sa + 0.3 * sb + 0.3 * sc
+ 
+    set_FME_very_hard()
+
+    so = set_FME(sb,duration)
+
+    return limitter(sc)
 
 #
 # MAKING ENDS
