@@ -1,9 +1,14 @@
 import numpy as np
 import math
 
+from sound_base.color.sound_color import white_noise
+from sound_base.effect.sound_effector import BPFilter
+
+from sound_base.FM.sound_FM_envelope import set_FME
 from sound_base.FM.sound_FM_envelope import set_FME
 
 # GET-FREQ
+
 def Freq(sound_a,note) :
 
     freq = sound_a * np.power(2, note / 12)
@@ -11,28 +16,19 @@ def Freq(sound_a,note) :
     return freq
 
 # SIN-NOTE
+
 def SINNote(sound_a,duration,note,ratio,feedback,sampling):
 
-    length_of_s = int(duration)
-    s = np.zeros(length_of_s)
-
-    f0 = Freq(sound_a, note)
-    fm = f0*ratio
-
-    sb = 0
-
-    for n in range(length_of_s):
-        pos = fm / sampling * n + sb * feedback
-        s[n] = np.sin(2 * np.pi * pos)
-        sb = s[n]
-
-    return s
+    freq = Freq(sound_a, note)
+ 
+    return SINFreq(sound_a,duration,freq,ratio,feedback,sampling)
 
 # SIN-FREQ
+
 def SINFreq(sound_a,duration,freq,ratio,feedback,sampling):
 
     length_of_s = int(duration)
-    s = np.zeros(length_of_s)
+    so = np.zeros(length_of_s)
 
     f0 = freq
     fm = f0*ratio
@@ -41,14 +37,60 @@ def SINFreq(sound_a,duration,freq,ratio,feedback,sampling):
 
     for n in range(length_of_s):
         pos = fm / sampling * n + sb * feedback
-        s[n] = np.sin(2 * np.pi * pos)
-        sb = s[n]
+        so[n] = np.sin(2 * np.pi * pos)
+        sb = so[n]
 
-    return s
+    return so
 
-# FM-SOUND
+# COS-NOTE
+
+def COSNote(sound_a,duration,note,ratio,feedback,sampling):
+
+    freq = Freq(sound_a, note)
+
+    return COSFreq(sound_a,duration,freq,ratio,feedback,sampling)
+
+# COS-FREQ
+
+def COSFreq(sound_a,duration,freq,ratio,feedback,sampling):
+
+    length_of_s = int(duration)
+    so = np.zeros(length_of_s)
+
+    f0 = freq
+    fm = f0*ratio
+
+    sb = 0
+
+    for n in range(length_of_s):
+        pos = fm / sampling * n + sb * feedback
+        so[n] = np.cos(2 * np.pi * pos)
+        sb = so[n]
+
+    return so
+
+# COLOR NOISE
+
+def CNoiseNote(sound_a,duration,note,ratio,sampling):
+
+    freq = Freq(sound_a, note)
+
+    return CNoiseFreq(sound_a,duration,freq,ratio,sampling)
+
+def CNoiseFreq(sound_a,duration,freq,ratio,sampling):
+
+    sa = white_noise(duration)
+
+    so = BPFilter(sampling,sa,freq,0.3,0.0)
+
+    return so
+
+############
+# FM-SOUND #
+############
 
 # FM-EMV
+
 def SETEnv(sound,speed):
 
     so = set_FME(sound,speed)
@@ -56,6 +98,7 @@ def SETEnv(sound,speed):
     return so
 
 # MIX
+
 def Mix(s1,s2,ratio):
 
     length_of_s = len(s1)
@@ -67,6 +110,7 @@ def Mix(s1,s2,ratio):
     return so
 
 # MODULATE
+
 def Modulate(s1,s2,power,feedback):
 
     length_of_s = len(s1)
@@ -80,7 +124,6 @@ def Modulate(s1,s2,power,feedback):
 
         diff = power * (s2[n] + sb * feedback)
         if n > 0 : diff += 1.0
-        p += diff
 
         i = math.floor(p)
         r = p - i
@@ -95,10 +138,13 @@ def Modulate(s1,s2,power,feedback):
             so[n] = s1[n]
 
         sb = so[n]
- 
+
+        p += diff
+
     return so
 
 # SYNC
+
 def Sync(s1,s2):
 
     length_of_s = len(s1)
@@ -115,4 +161,3 @@ def Sync(s1,s2):
         sp += 1
  
     return so
-

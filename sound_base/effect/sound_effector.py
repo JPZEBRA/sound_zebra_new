@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 from aoki.biquad_filter import LPF
 from aoki.biquad_filter import HPF
@@ -21,6 +22,124 @@ def limitter(sound) :
     if max>0 : sound /= max
 
     return sound
+
+###############
+### FOURIER ###
+###############
+
+def fourier_trans(sound,freq,num,sampling) :
+
+    return fourier_trans_ratio(sound,freq,1,num,sampling)
+
+def fourier_trans_ratio(sound,freq,ratio,num,sampling) :
+
+    duration = len(sound)
+
+    so = np.zeros(duration)
+
+    ps,pc,bias = fourier_power(sound,freq,ratio,num,sampling)
+
+    for i in range(len(ps)) :
+
+        fr = 1.0 + i / ratio
+
+        for n in range(duration) :
+
+            so[n] += ps[i] * np.sin(2 * np.pi * fr * freq / sampling * n ) + bias[i]
+
+            so[n] += pc[i] * np.cos(2 * np.pi * fr * freq / sampling * n ) + bias[i]
+
+    return limitter(so)
+
+def fourier_power(sound,freq,ratio,num,sampling) :
+
+    if( num < 1 or ratio < 1) : return [0],[0],[0]
+
+    duration = len(sound)
+
+    mid = sound.sum() / duration
+
+    ps = np.zeros(num)
+
+    pc = np.zeros(num)
+
+
+    for i in range(num) :
+
+        fr = 1.0 + i / ratio
+
+        for n in range(duration) :
+
+            ps[i] +=  ( sound[n] - mid ) * np.sin(2 * np.pi * fr * freq / sampling * n )
+
+            pc[i] +=  ( sound[n] - mid ) * np.cos(2 * np.pi * fr * freq / sampling * n )
+
+    bias = np.repeat(mid,num)
+
+    return ps,pc,bias
+
+####################
+### FOURIER SYNC ###
+####################
+
+def fourier_trans_sync(sound,freq,num,sampling) :
+
+    return fourier_trans_ratio_sync(sound,freq,1,num,sampling)
+
+def fourier_trans_ratio_sync(sound,freq,ratio,num,sampling) :
+
+    duration = len(sound)
+
+    so = np.zeros(duration)
+
+    sync = int( sampling / freq )
+
+    for sec in range( math.ceil( duration / sync ) ) :
+
+        st = sec * sync
+        ed = st + sync
+        if ed > duration : ed = duration
+
+        ps,pc,bias = fourier_power_sec(sound,freq,ratio,num,sampling,st,ed)
+
+        for i in range(len(ps)) :
+
+            fr = 1.0 + i / ratio
+
+            for n in range(st,ed) :
+
+                so[n] += ps[i] * np.sin(2 * np.pi * fr * freq / sampling * n ) + bias[i]
+
+                so[n] += pc[i] * np.cos(2 * np.pi * fr * freq / sampling * n ) + bias[i]
+
+    return limitter(so)
+
+def fourier_power_sec(sound,freq,ratio,num,sampling,st,ed) :
+
+    if( num < 1 or ratio < 1) : return [0],[0],[0]
+
+    duration = len(sound)
+
+    mid = sound.sum() / duration
+
+    ps = np.zeros(num)
+
+    pc = np.zeros(num)
+
+
+    for i in range(num) :
+
+        fr = 1.0 + i / ratio
+
+        for n in range(st,ed) :
+
+            ps[i] +=  ( sound[n] - mid ) * np.sin(2 * np.pi * fr * freq / sampling * n )
+
+            pc[i] +=  ( sound[n] - mid ) * np.cos(2 * np.pi * fr * freq / sampling * n )
+
+    bias = np.repeat(mid,num)
+
+    return ps,pc,bias
 
 ###############
 ### REVERSE ###

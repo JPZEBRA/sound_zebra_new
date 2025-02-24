@@ -12,7 +12,81 @@ FME_A4 = 0
 
 FME_C1 = 0.002
 
-# SOUND LEVEL 0-100
+###################
+# PRESET ENVELOPE #
+###################
+
+def set_FME_tone() :
+
+    set_FME_level(100,100,100,  0)
+    set_FME_poly (  0,  0,  0,  0)
+
+def set_FME_grow() :
+
+    set_FME_level(  0,  0,  0,100)
+    set_FME_poly (  0,  0,  0, 20)
+
+def set_FME_organ() :
+
+    set_FME_level(100,100,100,  0)
+    set_FME_poly ( 85,  0,  0,  0)
+
+def set_FME_gentle() :
+
+    set_FME_level(100, 80, 60,  0)
+    set_FME_poly ( 88, 85, 60, 10)
+
+def set_FME_solid() :
+
+    set_FME_level(100,  0,  0,  0)
+    set_FME_poly (  0, 40,  0,  0)
+
+def set_FME_hard() :
+
+    set_FME_level(100,  0,  0,  0)
+    set_FME_poly (  0, 60,  0,  0)
+
+def set_FME_hard_long() :
+
+    set_FME_level(100, 60, 30,  0)
+    set_FME_poly (  0, 80, 20, 10)
+
+def set_FME_very_hard() :
+
+    set_FME_level(100,  0,  0,  0)
+    set_FME_poly (  0, 80,  0,  0)
+
+def set_FME_attack() :
+
+    set_FME_level(100,  0,  0,  0)
+    set_FME_poly (  0, 88,  0,  0)
+
+def set_FME_attack_gentle() :
+
+    set_FME_level(100,  0,  0,  0)
+    set_FME_poly ( 80, 70,  0,  0)
+
+def set_FME_slow() :
+
+    set_FME_level(100, 90, 50,  0)
+    set_FME_poly ( 70, 80, 50, 30)
+
+
+###########
+# SETTING #
+###########
+
+def set_FME(sound,duration):
+
+    s = set_Envelope(duration,1.0)
+
+    so = s * sound
+
+    return so
+
+#####################
+# SOUND LEVEL 0-100 #
+#####################
 
 def set_FME_level(L1,L2,L3,L4) :
 
@@ -46,14 +120,9 @@ def set_FME_speed(speed,sampling) :
 
     FME_C1 = 0.002 * 441000 / sampling
 
-def set_FME(sound,duration):
-
-    s = set_Envelope(duration,1.0)
-
-    so = s * sound
-
-    return so
-
+########
+# MAIN #
+########
 
 def set_Envelope(duration,amount):
 
