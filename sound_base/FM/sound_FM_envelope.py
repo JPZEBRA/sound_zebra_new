@@ -31,6 +31,11 @@ def set_FME_organ() :
     set_FME_level(100,100,100,  0)
     set_FME_poly ( 85,  0,  0,  0)
 
+def set_FME_decay() :
+
+    set_FME_level(100, 90, 50,  0)
+    set_FME_poly (  0, 80, 50, 30)
+
 def set_FME_gentle() :
 
     set_FME_level(100, 80, 60,  0)
@@ -46,6 +51,11 @@ def set_FME_hard() :
     set_FME_level(100,  0,  0,  0)
     set_FME_poly (  0, 60,  0,  0)
 
+def set_FME_hard_remain() :
+
+    set_FME_level(100, 20, 10,  0)
+    set_FME_poly (  0, 60,  5,  5)
+
 def set_FME_hard_long() :
 
     set_FME_level(100, 60, 30,  0)
@@ -55,6 +65,11 @@ def set_FME_very_hard() :
 
     set_FME_level(100,  0,  0,  0)
     set_FME_poly (  0, 80,  0,  0)
+
+def set_FME_very_hard_remain() :
+
+    set_FME_level(100, 20,  5,  0)
+    set_FME_poly (  0, 80, 20,  5)
 
 def set_FME_attack() :
 

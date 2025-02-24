@@ -95,7 +95,7 @@ def pulse_out_freq_mod(sound_a,duration,freq,mod,pow,sampling):
         pos -= math.floor(pos)
         if pos < 0.5 + mod[n] : so[n] = pow
 
-    return s
+    return so
 
 def sawtooth_out(sound_a,duration,note,pow,sampling):
 
