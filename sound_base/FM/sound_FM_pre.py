@@ -321,7 +321,8 @@ def FM_pre_spectrum(sound,freq,num,sampling) :
     mx = np.max(pw)
     if mx > 0.01 : mx = np.sqrt(mx)
 
-    for n in range(num) : print( " F: " + pad(str(1.0 + n / 2 ),4) + " S: " + pad(str(int(ps[n]*100)/100),8) + " C: " + pad(str(int(pc[n]*100)/100),8) + " B: " + pad(str(int(bi[n]*100)/100),7) + " P: " + pad(str(int(mx*10)/10),7))
+    for n in range(num) : print( " F: " + pad((1.0 + n / 2 ),5,2) + " S: " + pad(ps[n],8,2) + " C: " + pad(pc[n],8,2) + " B: " + pad(bi[n],7,1) + " P: " + pad(mx,7,1) )
+
 
 def FM_pre_spectrum_search(sound,sampling) :
 
@@ -350,10 +351,10 @@ def FM_pre_spectrum_search(sound,sampling) :
             area_freq  = freq
 
 #       if mx >= 100 :
-#            print(" >>>" + pad(str(freq),4) + " Hz  / " + pad(str(int(mx*100)/100),8))
+#            print(" >>>" + pad(freq,4,0) + " Hz  / " + pad(mx,8,1))
 
         if freq % 100 == 0 :
-            print("TO " + pad(str(freq),4) + " Hz  / " + pad(str(int(area_level*100)/100),8) + " / " + pad(str(area_freq),4) + " Hz")
+            print("TO " + pad(freq,4,0) + " Hz  / " + pad(area_level,8,2) + " / " + pad(area_freq,4,0) + " Hz")
             area_level = 0
 
 
@@ -362,10 +363,22 @@ def FM_pre_spectrum_search(sound,sampling) :
 
 
 
-def pad(src,n) :
+def pad(num,k,f) :
 
-    ret = src
 
-    while len(ret) < n : ret = " " + ret
 
-    return ret
+
+
+    fmt = "f";
+
+    if f == 0 : fmt = ".0f"
+    if f == 1 : fmt = ".1f"
+    if f == 2 : fmt = ".2f"
+    if f == 3 : fmt = ".3f"
+
+    fmt = ">" + str(k) + fmt
+
+    fmt = "{:" + fmt + "}"
+
+    return fmt.format(num)
+

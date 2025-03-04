@@ -22,8 +22,8 @@ from sound_base.FM.sound_FM_envelope import set_FME_gentle
 from sound_base.FM.sound_FM_envelope import set_FME_solid
 from sound_base.FM.sound_FM_envelope import set_FME_hard
 from sound_base.FM.sound_FM_envelope import set_FME_very_hard
+from sound_base.FM.sound_FM_envelope import set_FME_hard_long
 from sound_base.FM.sound_FM_envelope import set_FME_attack
-from sound_base.FM.sound_FM_envelope import set_FME_knock
 from sound_base.FM.sound_FM_envelope import set_FME_slow
 from sound_base.FM.sound_FM_envelope import set_FME
 
@@ -67,7 +67,7 @@ def set_sound(note,sound_a,sampling,duration) :
 
     sc = Modulate(sa,sb,0.01,0.0)
 
-    set_FME_knock()
+    set_FME_hard_long()
 
     so = set_FME(sc,duration)
 

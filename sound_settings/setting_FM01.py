@@ -26,22 +26,22 @@ def set_sound(note,sound_a,sampling,duration) :
     feedback2 = 0.0
     modpower2 = 1.0
 
-    if(note>70) : modpower2 = 0.5
-    if(note>80) : modpower2 = 0.1
+    if(note>70-69) : modpower2 = 0.5
+    if(note>80-69) : modpower2 = 0.1
 
     op6 = SINNote(sound_a,duration,note,ratio1,feedback1,sampling)
-
     op4 = SINNote(sound_a,duration,note,ratio1,0.0,sampling)
-
     md4  = Modulate(op4,op6,modpower2,feedback2)
+    del op4
 
     op5 = SINNote(sound_a,duration,note,ratio2,0.0,sampling)
-
     md5  = Modulate(op5,op6,modpower2,feedback2)
+    del op5, op6
 
     mix = 0.7
-
     sa = Mix(md4,md5,mix)
+    del md4, md5
+
 
     set_FME_level(100,50,20,0)
     set_FME_poly(0,70,50,20)
@@ -52,22 +52,19 @@ def set_sound(note,sound_a,sampling,duration) :
     ratio5 = 17.000
 
     op3 = SINNote(sound_a,duration,note,ratio5,0.0,sampling)
-
     op2 = SINNote(sound_a,duration,note,ratio4,0.0,sampling)
-
     md2  = Modulate(op2,op3,modpower2,feedback2)
+    del op2, op3
 
     op1 = SINNote(sound_a,duration,note,ratio3,0.0,sampling)
-
     sb  = Modulate(op1,md2,modpower2,feedback2)
+    del op1, md2
 
     set_FME_level(100,60,5,0)
     set_FME_poly(0,80,60,20)
     sb = SETEnv(sb,duration)
 
-
     mix = 0.8
-
     sound_master = Mix(sa,sb,mix)
 
     return sound_master

@@ -60,15 +60,7 @@ def set_sound(note,sound_a,sampling,duration) :
 
     sa = set_FME(sa0,duration)
 
-    sb0 = white_noise(duration)
-
-    sb1 = BPFilter(sampling,sb0,Freq(sound_a,note+24),0.3,0.0)
-
-    set_FME_hard()
-
-    sb = set_FME(sb1,duration)
-
-    so = Mix(sa,sb,0.7)
+    so = sa
 
     return limitter(so)
 

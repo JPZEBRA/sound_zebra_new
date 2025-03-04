@@ -23,7 +23,6 @@ from sound_base.FM.sound_FM_envelope import set_FME_solid
 from sound_base.FM.sound_FM_envelope import set_FME_hard
 from sound_base.FM.sound_FM_envelope import set_FME_very_hard
 from sound_base.FM.sound_FM_envelope import set_FME_attack
-from sound_base.FM.sound_FM_envelope import set_FME_knock
 from sound_base.FM.sound_FM_envelope import set_FME_slow
 from sound_base.FM.sound_FM_envelope import set_FME
 

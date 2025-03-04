@@ -55,7 +55,10 @@ if len(args) >= 3 :
 
     sample = np.zeros(duration)
 
-    for n in range(duration) : sample[n] = float(sound[n + cut][0])
+    if sound.ndim == 1 :
+        for n in range(duration) : sample[n] = float(sound[n + cut])
+    if sound.ndim == 2 :
+        for n in range(duration) : sample[n] = float(sound[n + cut][0])
 
     FM_pre_spectrum(sample,freq,20,sampling)
 

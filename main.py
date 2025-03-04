@@ -68,15 +68,15 @@ duration = 120000
 #name = "./output/ep02/fp"
 
 # E-PIANO-03
-#from sound_settings.setting_fmpiano01 import set_sound
+#from sound_settings.setting_FMpiano01 import set_sound
 #name = "./output/ep03/eb"
 
 # E-PIANO-04
-#from sound_settings.setting_fmpiano02 import set_sound
+#from sound_settings.setting_FMpiano02 import set_sound
 #name = "./output/ep04/ex"
 
 # E-PIANO-05
-#from sound_settings.setting_fmpiano03 import set_sound
+#from sound_settings.setting_FMpiano03 import set_sound
 #name = "./output/ep05/ee"
 
 # STRING-01
@@ -123,21 +123,16 @@ duration = 120000
 #from sound_settings.setting_trumpet01 import set_sound
 #name = "./output/tru01/tru"
 
-# HARPSICHORD-01
-#from sound_settings.setting_harp01 import set_sound
-#name = "./output/hrp01/hrp"
-#base_key = 0
-
 # D-BASE-1
 #from sound_settings.setting_dbase01 import set_sound
 #name = "./output/dbs01/db"
 
 # FMPAD-1
-#from sound_settings.setting_fmpad01 import set_sound
+#from sound_settings.setting_FMpad01 import set_sound
 #name = "./output/fmp01/fmp"
 
 # FMPAD-2
-#from sound_settings.setting_fmpad02 import set_sound
+#from sound_settings.setting_FMpad02 import set_sound
 #name = "./output/fmp02/fmp"
 
 # TECHNO-1
@@ -145,7 +140,7 @@ duration = 120000
 #name = "./output/tec01/tec"
 
 # TECHNO-2
-#from sound_settings.setting_techno02import set_sound
+#from sound_settings.setting_techno02 import set_sound
 #name = "./output/tec02/tec"
 
 # DETROIT-1
@@ -162,7 +157,7 @@ duration = 120000
 
 # SOLID BASE-1
 #from sound_settings.setting_dbase03 import set_sound
-#name = "./output/dbs03/dbs"
+#name = "./output/dbs02/dbs"
 
 # DUB STEP-1
 #from sound_settings.setting_dubstep01 import set_sound
@@ -208,10 +203,6 @@ duration = 120000
 #from sound_settings.setting_suzu02 import set_sound
 #name = "./output/suzu02/suzu"
 
-# KNOCK
-#from sound_settings.setting_PRESET005 import set_sound
-#name = "./output/knk01/knk"
-
 # CHURCH BELL
 #from sound_settings.setting_PRESET007 import set_sound
 #name = "./output/chb00/chb"
@@ -244,9 +235,26 @@ duration = 120000
 #from sound_settings.setting_triphop01 import set_sound
 #name = "./output/trp01/trp"
 
-# UK NewWave
-from sound_settings.setting_UKnew01 import set_sound
-name = "./output/ukp01/ukp"
+# UK NEWWAVE
+#from sound_settings.setting_UKnew01 import set_sound
+#name = "./output/ukp01/ukp"
+
+
+
+
+# HARPSICHORD-01
+#from sound_settings.setting_harp01 import set_sound
+#name = "./output/hrp01/hrp"
+#base_key = 0
+
+
+# PIPEORGAN-01
+from sound_settings.setting_pipe01 import set_sound
+name = "./output/pip01/pip"
+base_key = 0
+
+
+
 
 # TEST
 #from sound_settings.setting_UKnew01 import set_sound
@@ -256,7 +264,8 @@ name = "./output/ukp01/ukp"
 # MAIN LOOP
 #
 
-for note in range(41,89) :
+### 41 (2F) ==> 36 (2C) ###
+for note in range(36,89) :
 
     if(test) : note = ( octave + 1 ) * 12 - 3 + ( key - 8 )
 

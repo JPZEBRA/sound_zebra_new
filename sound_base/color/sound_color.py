@@ -121,7 +121,7 @@ def sawtooth_freq_out(sound_a,duration,freq,pow,sampling):
 def sin_decay(sound_a,duration,note,pow,sampling,decay):
 
     freq = sound_a * np.power(2, note / 12)
-    T = 1 / f0
+    T = 1 / freq
 
     return sin_freq_decay(sound_a,duration,freq,pow,sampling,decay)
 
@@ -139,12 +139,12 @@ def sin_freq_decay(sound_a,duration,freq,pow,sampling,decay):
 
         so[n] = pow * dec * np.sin(2 * np.pi * f0/sampling*n)
 
-    return s
+    return so
 
 def square_decay(sound_a,duration,note,pow,sampling,decay):
 
     length_of_s = int(duration)
-    s = np.zeros(length_of_s)
+    so = np.zeros(length_of_s)
 
     f0 = sound_a * np.power(2, note / 12)
     T = 1 / f0
@@ -152,13 +152,13 @@ def square_decay(sound_a,duration,note,pow,sampling,decay):
     for n in range(length_of_s):
 
         sw = np.sin(2 * np.pi * f0/sampling*n)
-        if sw > 0 : s[n] =   pow
-        if sw < 0 : s[n] = - pow
+        if sw > 0 : so[n] =   pow
+        if sw < 0 : so[n] = - pow
 
         dec = np.power(np.e , - n * decay / duration )
-        s[n] *= dec
+        so[n] *= dec
 
-    return s
+    return so
 
 def pulse_decay(sound_a,duration,note,ratio,decay,pow,sampling):
 
@@ -295,6 +295,8 @@ def sound_string(sound_a,duration,note,sampling) :
     f0 = sound_a * np.power(2,note/12)
 
     T = 1/f0
+
+    if T > 0.05 : T = 0.05
 
     D = int(T*sampling)
   

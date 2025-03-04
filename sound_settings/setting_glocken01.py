@@ -1,5 +1,6 @@
 import numpy as np
 from sound_base.color.sound_color import sin_freq_decay
+from sound_base.effect.sound_effector import limitter
 from sound_base.touch.sound_touch_ADSR import set_touch_HARD
 from sound_base.touch.sound_touch_ADSR import touch_ADSR
 
@@ -52,13 +53,15 @@ def set_sound(note,sound_a,sampling,duration) :
     length_of_s_master = int(duration)
     s0 = np.zeros(length_of_s_master)
 
-    s1 = sin_freq_decay(sound_a,duration,note,freq1,pow1,sampling,decay1)
-    s2 = sin_freq_decay(sound_a,duration,note,freq2,pow2,sampling,decay2)
-    s3 = sin_freq_decay(sound_a,duration,note,freq3,pow3,sampling,decay3)
-    s4 = sin_freq_decay(sound_a,duration,note,freq4,pow4,sampling,decay4)
-    s5 = sin_freq_decay(sound_a,duration,note,freq5,pow5,sampling,decay5)
-    s6 = sin_freq_decay(sound_a,duration,note,freq6,pow6,sampling,decay6)
-    s7 = sin_freq_decay(sound_a,duration,note,freq7,pow7,sampling,decay7)
+    f0 = sound_a * np.power(2, note / 12)
+
+    s1 = sin_freq_decay(sound_a,duration,f0*freq1,pow1,sampling,decay1)
+    s2 = sin_freq_decay(sound_a,duration,f0*freq2,pow2,sampling,decay2)
+    s3 = sin_freq_decay(sound_a,duration,f0*freq3,pow3,sampling,decay3)
+    s4 = sin_freq_decay(sound_a,duration,f0*freq4,pow4,sampling,decay4)
+    s5 = sin_freq_decay(sound_a,duration,f0*freq5,pow5,sampling,decay5)
+    s6 = sin_freq_decay(sound_a,duration,f0*freq6,pow6,sampling,decay6)
+    s7 = sin_freq_decay(sound_a,duration,f0*freq7,pow7,sampling,decay7)
 
     for n in range(length_of_s_master):
         if n>= duration : break
@@ -72,9 +75,7 @@ def set_sound(note,sound_a,sampling,duration) :
 
     sound_master = touch_ADSR(s0)
 
-    sound_master /= np.max(np.abs(sound_master))
-
-    return sound_master
+    return limitter(sound_master)
 #
 # MAKING ENDS
 #
