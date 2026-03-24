@@ -15,6 +15,58 @@ def Freq(sound_a,note) :
 
     return freq
 
+def FreqJMajor(sound_a,base,note) :
+
+    freq0 = sound_a * np.power(2, base / 12)
+
+    while note - base < 0 : 
+        base -= 12
+        freq0 /= 2
+    while note - base > 11 :
+        base += 12
+        freq0 *= 2
+
+    if note - base ==  0 : return freq0
+    if note - base ==  1 : return freq0 *  9 / 8 * 15 / 16
+    if note - base ==  2 : return freq0 *  9 / 8
+    if note - base ==  3 : return freq0 *  5 / 4 * 15 / 16
+    if note - base ==  4 : return freq0 *  5 / 4
+    if note - base ==  5 : return freq0 *  4 / 3
+    if note - base ==  6 : return freq0 *  3 / 2 * 15 / 16
+    if note - base ==  7 : return freq0 *  3 / 2
+    if note - base ==  8 : return freq0 *  5 / 3 * 15 / 16
+    if note - base ==  9 : return freq0 *  5 / 3
+    if note - base == 10 : return freq0 * 15 / 8 * 15 / 16
+    if note - base == 11 : return freq0 * 15 / 8
+
+    return 0
+
+def FreqJMinor(sound_a,base,note) :
+
+    freq0 = sound_a * np.power(2, base / 12)
+
+    while note - base < 0 : 
+        base -= 12
+        freq0 /= 2
+    while note - base > 11 :
+        base += 12
+        freq0 *= 2
+
+    if note - base ==  0 : return freq0
+    if note - base ==  1 : return freq0 * 9 / 8 * 15 / 16
+    if note - base ==  2 : return freq0 * 9 / 8
+    if note - base ==  3 : return freq0 * 6 / 5
+    if note - base ==  4 : return freq0 * 4 / 3 * 15 / 16 
+    if note - base ==  5 : return freq0 * 4 / 3
+    if note - base ==  6 : return freq0 * 3 / 2 * 15 / 16
+    if note - base ==  7 : return freq0 * 3 / 2
+    if note - base ==  8 : return freq0 * 8 / 5
+    if note - base ==  9 : return freq0 * 9 / 5 * 15 / 16
+    if note - base == 10 : return freq0 * 9 / 5
+    if note - base == 11 : return freq0 * 2 / 1 * 15 / 16
+
+    return 0
+
 # SIN-NOTE
 
 def SINNote(sound_a,duration,note,ratio,feedback,sampling):
@@ -22,6 +74,15 @@ def SINNote(sound_a,duration,note,ratio,feedback,sampling):
     freq = Freq(sound_a, note)
  
     return SINFreq(sound_a,duration,freq,ratio,feedback,sampling)
+
+# SIN-NOTE-J
+
+def SINNoteJ(sound_a,duration,base,note,ratio,feedback,sampling):
+
+    freq = FreqJMajor(sound_a, base, note)
+ 
+    return SINFreq(sound_a,duration,freq,ratio,feedback,sampling)
+
 
 # SIN-FREQ
 
@@ -42,11 +103,39 @@ def SINFreq(sound_a,duration,freq,ratio,feedback,sampling):
 
     return so
 
+# SIN-FREQ-PITCH
+
+def SINFreqPitch(duration,freq,pitch,ratio,feedback,sampling):
+
+    length_of_s = int(duration)
+    so = np.zeros(length_of_s)
+
+    f0 = freq
+    fm = f0*ratio
+
+    sb = 0
+    pos = 0
+
+    for n in range(length_of_s):
+        so[n] = np.sin(2 * np.pi * pos)
+        sb = so[n]
+        pos += fm / sampling * pitch[n] + sb * feedback
+
+    return so
+
 # COS-NOTE
 
 def COSNote(sound_a,duration,note,ratio,feedback,sampling):
 
     freq = Freq(sound_a, note)
+
+    return COSFreq(sound_a,duration,freq,ratio,feedback,sampling)
+
+# COS-NOTE-J
+
+def COSNoteJ(sound_a,duration,base,note,ratio,feedback,sampling):
+
+    freq = FreqJMajor(sound_a, base, note)
 
     return COSFreq(sound_a,duration,freq,ratio,feedback,sampling)
 
@@ -66,6 +155,24 @@ def COSFreq(sound_a,duration,freq,ratio,feedback,sampling):
         pos = fm / sampling * n + sb * feedback
         so[n] = np.cos(2 * np.pi * pos)
         sb = so[n]
+
+    return so
+
+def COSFreqPitch(duration,freq,pitch,ratio,feedback,sampling):
+
+    length_of_s = int(duration)
+    so = np.zeros(length_of_s)
+
+    f0 = freq
+    fm = f0*ratio
+
+    sb = 0
+    pos = 0
+
+    for n in range(length_of_s):
+        so[n] = np.cos(2 * np.pi * pos)
+        sb = so[n]
+        pos += fm / sampling * pitch[n] + sb * feedback
 
     return so
 

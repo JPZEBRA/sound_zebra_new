@@ -41,6 +41,11 @@ def set_FME_gentle() :
     set_FME_level(100, 80, 60,  0)
     set_FME_poly ( 88, 85, 60, 10)
 
+def set_FME_soft() :
+
+    set_FME_level(100, 90, 50,  0)
+    set_FME_poly ( 83, 80, 50, 30)
+
 def set_FME_solid() :
 
     set_FME_level(100,  0,  0,  0)

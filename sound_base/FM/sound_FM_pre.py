@@ -10,6 +10,8 @@ from sound_base.FM.sound_FM_unit import SINNote
 from sound_base.FM.sound_FM_unit import COSNote
 from sound_base.FM.sound_FM_unit import SINFreq
 from sound_base.FM.sound_FM_unit import COSFreq
+from sound_base.FM.sound_FM_unit import SINFreqPitch
+from sound_base.FM.sound_FM_unit import COSFreqPitch
 from sound_base.FM.sound_FM_unit import Freq
 
 #
@@ -46,10 +48,35 @@ def FM_pre_sound_f(freq,sound_a,sampling,duration) :
 
         pw = FM_PRE_PS[n] * FM_PRE_PS[n] + FM_PRE_PC[n] * FM_PRE_PC[n]
 
-        if pw > 1 :
+        if pw > 0 :
 
             so += FM_PRE_PS[n] * SINFreq(sound_a,duration,freq,FM_PRE_FQ[n],0.0,sampling) + FM_PRE_BI[n]
             so += FM_PRE_PC[n] * COSFreq(sound_a,duration,freq,FM_PRE_FQ[n],0.0,sampling) + FM_PRE_BI[n]
+
+    so *= FM_PRE_PW
+
+    return limitter(so)
+
+def FM_pre_sound_pitch(note,sound_a,pitch,sampling,duration) :
+
+    return FM_pre_sound_pitch_f(Freq(sound_a,note),pitch,sampling,duration)
+
+def FM_pre_sound_pitch_f(freq,pitch,sampling,duration) :
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    so = np.zeros(duration)
+
+    for n in range(FM_PRE_NM) :
+
+        so += FM_PRE_PS[n] * SINFreqPitch(duration,freq,pitch,FM_PRE_FQ[n],0.0,sampling)
+        so += FM_PRE_PC[n] * COSFreqPitch(duration,freq,pitch,FM_PRE_FQ[n],0.0,sampling)
+        so += FM_PRE_BI[n]
 
     so *= FM_PRE_PW
 
@@ -81,6 +108,20 @@ def FM_pre_sound_square_f(freq,sound_a,sampling,duration) :
     so *= FM_PRE_PW
 
     return limitter(so)
+
+# BOOST POWER
+
+def FM_pre_boost(power):
+
+    global FM_PRE_NM
+    global FM_PRE_PS
+    global FM_PRE_PC
+
+    for i in range(0,FM_PRE_NM) :
+        if(i<len(power)) :
+            FM_PRE_PS[i] = FM_PRE_PS[i] * power[i]
+            FM_PRE_PC[i] = FM_PRE_PC[i] * power[i]
+
 
 # SIN WAVE
 
@@ -305,6 +346,341 @@ def FM_pre_rghorn() :
     FM_PRE_PC = np.array([  980,  960,  940,  440, -220,  -70,  230,   60, -100,  -60])
     FM_PRE_BI = np.array([ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00])
 
+def FM_pre_flute() :
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM =  2
+    FM_PRE_PW =  0.50
+
+    FM_PRE_FQ = np.array([ 1.00, 2.00])
+    FM_PRE_PS = np.array([  100,   10])
+    FM_PRE_PC = np.array([    0,    0])
+    FM_PRE_BI = np.array([ 0.00, 0.00])
+
+def FM_pre_oboe() :
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM =  5
+    FM_PRE_PW =  0.95
+
+    FM_PRE_FQ = np.array([ 1.00, 2.00, 3.00, 4.00, 5.00])
+    FM_PRE_PS = np.array([  100,   30,   35,   20,   15])
+    FM_PRE_PC = np.array([    0,    0,    0,    0,    0])
+    FM_PRE_BI = np.array([ 0.00, 0.00, 0.00, 0.00, 0.00])
+
+def FM_pre_clarinet() :
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM =  5
+    FM_PRE_PW =  0.85
+
+    FM_PRE_FQ = np.array([ 1.00, 2.00, 3.00, 4.00, 5.00])
+    FM_PRE_PS = np.array([  100,    8,   35,    0,   15])
+    FM_PRE_PC = np.array([    0,    0,    0,    0,    0])
+    FM_PRE_BI = np.array([ 0.00, 0.00, 0.00, 0.00, 0.00])
+
+def FM_pre_trumpetA() :
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM =  6
+    FM_PRE_PW =  1
+
+    FM_PRE_FQ = np.array([ 1.00, 2.00, 3.00, 4.00, 5.00, 6.00])
+    FM_PRE_PS = np.array([   45,   30,   27,   10,    5,    3])
+    FM_PRE_PC = np.array([    0,    0,    0,    0,    0,    0])
+    FM_PRE_BI = np.array([ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00])
+
+def FM_pre_trumpetB() :
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM =  6
+    FM_PRE_PW =  1
+
+    FM_PRE_FQ = np.array([ 1.00, 2.00, 3.00, 4.00, 5.00, 6.00])
+    FM_PRE_PS = np.array([   45,   30,   27,   10,    5,    3])
+    FM_PRE_PC = np.array([    0,    0,    0,    0,    0,    0])
+    FM_PRE_BI = np.array([ 0.15, 0.12, 0.00, 0.00, 0.00, 0.00])
+
+def FM_pre_cornetA() :
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM =  6
+    FM_PRE_PW =  1
+
+    FM_PRE_FQ = np.array([ 1.00, 2.00, 3.00, 4.00, 5.00, 6.00])
+    FM_PRE_PS = np.array([   45,   30,   20,    7,    3,    2])
+    FM_PRE_PC = np.array([    0,  0.1,  0.2,  0.3,  0.3,  0.3])
+    FM_PRE_BI = np.array([ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00])
+
+    FM_pre_boost(np.array([1.05, 1.0, 0.9, 0.8, 0.8, 0.8]))
+
+def FM_pre_cornetB() :
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM =  6
+    FM_PRE_PW =  1
+
+    FM_PRE_FQ = np.array([ 1.00, 2.00, 3.00, 4.00, 5.00, 6.00])
+    FM_PRE_PS = np.array([   45,   30,   20,    7,    3,    2])
+    FM_PRE_PC = np.array([    0,  0.1,  0.2,  0.3,  0.3,  0.3])
+    FM_PRE_BI = np.array([ 0.08, 0.06, 0.00, 0.00, 0.00, 0.00])
+
+    FM_pre_boost(np.array([1.05, 1.0, 0.9, 0.8, 0.8, 0.8]))
+
+def FM_pre_tromboneA():
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM = 6
+    FM_PRE_PW = 1
+
+    FM_PRE_FQ = np.array([1.00, 2.00, 3.00, 4.00, 5.00, 6.00])
+
+    # 太くて暗い倍音
+    FM_PRE_PS = np.array([50, 35, 30, 12, 5, 3])
+
+    # 重いアタック（位相をズラす）
+    FM_PRE_PC = np.array([0.0, 0.15, 0.25, 0.35, 0.35, 0.35])
+
+    # A は揺れなし
+    FM_PRE_BI = np.array([0, 0, 0, 0, 0, 0])
+
+    FM_pre_boost(np.array([1.3, 1.2, 1.0, 0.9, 0.8, 0.7]))
+
+def FM_pre_tromboneB():
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM = 6
+    FM_PRE_PW = 1
+
+    FM_PRE_FQ = np.array([1.00, 2.00, 3.00, 4.00, 5.00, 6.00])
+
+    FM_PRE_PS = np.array([50, 35, 30, 12, 5, 3])
+    FM_PRE_PC = np.array([0.0, 0.15, 0.25, 0.35, 0.35, 0.35])
+
+    # 息の揺れは深くて遅い（4Hz〜4.5Hz）
+    FM_PRE_BI = np.array([0.15, 0.10, 0.00, 0.00, 0.00, 0.00])
+
+    FM_pre_boost(np.array([1.3, 1.2, 1.0, 0.9, 0.8, 0.7]))
+
+def FM_pre_hornA():
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM = 6
+    FM_PRE_PW = 1
+
+    FM_PRE_FQ = np.array([1.00, 2.00, 3.00, 4.00, 5.00, 6.00])
+
+    # 暗くて丸い倍音（ホルンの本質）
+    FM_PRE_PS = np.array([55, 25, 20,  8, 3, 2])
+    # アタックは「ボワッ」→ 位相を大きくズラす
+    FM_PRE_PC = np.array([0.0, 0.20, 0.30, 0.40, 0.40, 0.40])
+    # A は揺れなし
+    FM_PRE_BI = np.array([0, 0, 0, 0, 0, 0])
+
+    FM_pre_boost(np.array([1.15, 1.05, 0.95, 0.85, 0.80, 0.75]))
+
+def FM_pre_hornB():
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM = 6
+    FM_PRE_PW = 1
+
+    FM_PRE_FQ = np.array([1.00, 2.00, 3.00, 4.00, 5.00, 6.00])
+
+    FM_PRE_PS = np.array([55, 25, 20,  8, 3, 2])
+    FM_PRE_PC = np.array([0.0, 0.20, 0.30, 0.40, 0.40, 0.40])
+
+    # 息の揺れだけ（極浅）
+    FM_PRE_BI = np.array([0.04, 0.03, 0.00, 0.00, 0.00, 0.00])
+
+    FM_pre_boost(np.array([1.15, 1.05, 0.95, 0.85, 0.80, 0.75]))
+
+def FM_pre_tinpani_base():
+
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM = 6
+    FM_PRE_PW = 1
+
+    FM_PRE_FQ = np.array([1.00, 1.59, 2.14, 2.30, 2.65, 3.16])
+    FM_PRE_PS = np.array([  55,   28,   32,   10,    5,    3])
+    FM_PRE_PC = np.array([   0,    0,    0,    0,    0,    0])
+    FM_PRE_BI = np.array([0.00, 0.00, 0.00, 0.00, 0.00, 0.00])
+
+def FM_pre_tinpaniA():
+
+    global FM_PRE_PS
+
+    FM_pre_tinpani_base()
+    FM_pre_boost(np.array([0.6, 0.4, 0.3, 0.2, 0.1, 0.1]))
+
+def FM_pre_tinpaniB():
+
+    global FM_PRE_PS
+
+    FM_pre_tinpani_base()
+    FM_pre_boost(np.array([1.2, 1.0, 0.8, 0.5, 0.3, 0.1]))
+
+def FM_pitch_tinpani(sampling,duration):
+
+    curve = np.zeros(duration)
+    for i in range(duration):
+        t = i / sampling
+
+        # 0〜0.02：少し上がる
+        if t < 0.02:
+            curve[i] = 1.0 + 0.0015 * (t / 0.02)   # +15 cent
+
+        # 0.02〜0.05：下がる
+        elif t < 0.05:
+            curve[i] = 1.015 - 0.0030 * ((t - 0.02) / 0.03)  # -30 cent
+
+        # 0.05〜：ゆっくり戻る
+        else:
+            curve[i] = 0.985 + 0.015 * (t - 0.05)
+
+    return curve
+
+def FM_pre_isekai_church():
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM = 9
+    FM_PRE_PW = 6.5
+
+    # 非整数倍音（異世界感の源）
+    FM_PRE_FQ = np.array([
+        0.48,   # 低い金属共鳴
+        0.75,   # 教会鐘の特徴
+        1.00,   # 基本
+        1.67,   # 5/3 に近いが少しズラす
+        2.41,   # 12/5 付近
+        2.93,   # ほぼ 3倍音だがズラす
+        3.76,   # 高域の金属
+        4.91,   # 異世界の倍音
+        1.618   # ？
+    ])
+
+    # サイン成分（奇数倍音寄り）
+    FM_PRE_PS = np.array([
+        120, -90, -160, -180, 40, 95, -60, 30, 90
+    ])
+
+    # コサイン成分（位相をズラして金属感）
+    FM_PRE_PC = np.array([
+        -70, 110, -130, -80, -20, 15, 5, -12, 30
+    ])
+
+    # バイアス（DC成分はゼロ）
+    FM_PRE_BI = np.zeros(FM_PRE_NM)
+
+def FM_pre_moonbell():
+    global FM_PRE_NM
+    global FM_PRE_PW
+    global FM_PRE_FQ
+    global FM_PRE_PS
+    global FM_PRE_PC
+    global FM_PRE_BI
+
+    FM_PRE_NM = 6
+    FM_PRE_PW = 1.8
+
+    # 透明で静かな金属倍音
+    FM_PRE_FQ = np.array([
+        0.75,   # 鈴の柔らかい胴鳴り
+        1.00,   # 基本
+        2.00,   # 2倍音（澄んだ響き）
+        3.00,   # 3倍音（細い金属）
+        4.00,   # 高域の透明感
+        1.618   # 月光のような黄金比の揺らぎ
+    ])
+
+    # サイン成分（柔らかい金属）
+    FM_PRE_PS = np.array([
+        70, 100, 40, 20, 10, 25
+    ])
+
+    # コサイン成分（位相を少しズラして透明感）
+    FM_PRE_PC = np.array([
+        -10, 0, 0, 0, 0, 5
+    ])
+
+    FM_PRE_BI = np.zeros(FM_PRE_NM)
 
 ###########
 # ANALYSE #
@@ -364,10 +740,6 @@ def FM_pre_spectrum_search(sound,sampling) :
 
 
 def pad(num,k,f) :
-
-
-
-
 
     fmt = "f";
 
